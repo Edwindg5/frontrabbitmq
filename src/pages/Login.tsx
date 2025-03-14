@@ -1,13 +1,8 @@
-// En App.js o en el archivo donde quieres usar el formulario de login
-import React from 'react';
-import LoginForm from './Login';
+// src/pages/Login.tsx
+import LoginForm from "../components/LoginForm";
 
-const App = () => {
-  return (
-    <div className="App">
-      <LoginForm /> {/* Aquí se renderiza el formulario de login */}
-    </div>
-  );
+const Login = () => {
+  return <LoginForm />;
 };
 
-export default App;
+export default Login;

@@ -1,31 +1,52 @@
-import Header from "../components/Header";
+// src/pages/Home.tsx
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Card from "../components/Cards";
-import "../styles/Home.css"; // Creamos un CSS para Home
+import { useAuth } from "../hooks/useAuth";
+import { FaSignOutAlt } from "react-icons/fa";
+import "../styles/Home.css";
 
 const Home = () => {
+  const { isAuthenticated, logout } = useAuth();
+  const [pedidos, setPedidos] = useState<{ producto: string; cantidad: number }[]>([]);
+
+  useEffect(() => {
+    const fetchPedidos = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/pedidos/pendientes");
+        setPedidos(response.data);
+      } catch (error) {
+        console.error("Error al obtener los pedidos pendientes:", error);
+      }
+    };
+  
+    fetchPedidos();
+    const interval = setInterval(fetchPedidos, 5000);
+    return () => clearInterval(interval);
+  }, []);
+  
+  
+
   return (
     <div>
-      <Header />
       <main className="home-container">
-        <h1>Almacenamiento de Articulos</h1>
+        <h1>Artículos</h1>
         <div className="cards-container">
-          <Card
-            title="Pedidos"
-            description="Revisa y gestiona tus pedidos fácilmente."
-            imageUrl="https://source.unsplash.com/300x180/?delivery"
-          />
-          <Card
-            title="Productos"
-            description="Explora nuestra selección de productos exclusivos."
-            imageUrl="https://source.unsplash.com/300x180/?products"
-          />
-          <Card
-            title="Soporte"
-            description="¿Necesitas ayuda? Contáctanos en cualquier momento."
-            imageUrl="https://source.unsplash.com/300x180/?support"
-          />
+          {pedidos.length > 0 ? (
+            pedidos.map((pedido, index) => (
+              <Card key={index} title={pedido.producto} description={`Cantidad: ${pedido.cantidad}`} />
+            ))
+          ) : (
+            <p>No hay pedidos registrados.</p>
+          )}
         </div>
       </main>
+
+      {isAuthenticated && (
+        <button className="logout-float-button" onClick={logout}>
+          <FaSignOutAlt size={24} />
+        </button>
+      )}
     </div>
   );
 };

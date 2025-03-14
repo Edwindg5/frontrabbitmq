@@ -1,0 +1,74 @@
+.admin-dashboard {
+  text-align: center;
+  padding: 50px;
+}
+
+.admin-dashboard h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.admin-dashboard p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.admin-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.admin-buttons button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.admin-buttons button:hover {
+  background-color: #0056b3;
+}
+
+.logout-button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+.logout-float-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.logout-float-button:hover {
+  background-color: #c82333;
+  transform: scale(1.1);
+}

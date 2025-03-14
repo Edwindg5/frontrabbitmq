@@ -1,13 +1,18 @@
+import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 import "../styles/Header.css";
 
 const Header = () => {
+  const { isAuthenticated, role } = useAuth();
+
   return (
     <header className="header">
-      <h1>Article Storage</h1>
+      <h1>Articles</h1>
       <nav>
         <ul>
-          <li><a href="/">Inicio</a></li>
-          <li><a href="/pedidos">Pedidos</a></li>
+          <li><Link to="/">Inicio</Link></li>
+          {isAuthenticated && role === "user" && <li><Link to="/pedidos">Mis Pedidos</Link></li>}
+          {!isAuthenticated && <li><Link to="/login">Login</Link></li>}
         </ul>
       </nav>
     </header>
