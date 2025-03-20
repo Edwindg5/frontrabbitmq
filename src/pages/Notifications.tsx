@@ -20,7 +20,7 @@ const Notifications = () => {
   // 🟢 Obtener notificaciones
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/notificaciones");
+      const response = await axios.get("http://localhost:8082/notificaciones");
       setNotifications(response.data);
     } catch (error) {
       console.error("❌ Error al obtener notificaciones:", error);

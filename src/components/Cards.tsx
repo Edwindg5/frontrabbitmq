@@ -1,32 +1,20 @@
 import "../styles/Card.css";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { FaTimes } from "react-icons/fa"; // Importamos el icono de "X"
 
 interface CardProps {
   title: string;
   description: string;
+  cantidad: number;
+  onSolicitar: (producto: string) => void;
+  onRemove: (producto: string) => void; // ✅ Nueva función para eliminar la tarjeta
 }
 
-const Card = ({ title, description }: CardProps) => {
+const Card = ({ title, description, cantidad, onSolicitar, onRemove }: CardProps) => {
   const { isAuthenticated, role, user } = useAuth();
   const [isSolicitado, setIsSolicitado] = useState(false);
-  useEffect(() => {
-    const fetchPedidosPendientes = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/pedidos/pendientes");
-        const pendientes = response.data.some(
-          (pedido: any) => pedido.producto.toLowerCase() === title.toLowerCase()
-        );
-        setIsSolicitado(pendientes);
-      } catch (error) {
-        console.error("Error al obtener los pedidos pendientes:", error);
-      }
-    };
-  
-    fetchPedidosPendientes();
-  }, [title]);
-  
 
   const handleClick = async () => {
     if (!isAuthenticated || !user) {
@@ -37,17 +25,17 @@ const Card = ({ title, description }: CardProps) => {
     const pedido = {
       cliente: user.email,
       producto: title,
-      cantidad: 1,
-      estado: "pendiente"
+      cantidad: cantidad,
+      estado: "pendiente",
     };
 
     try {
-      // Solo se envía la solicitud directamente a API2
-      const response = await axios.post("http://localhost:8081/notificaciones", pedido);
+      const response = await axios.post("http://localhost:8082/notificaciones", pedido);
 
       if (response.status === 201) {
         setIsSolicitado(true);
-        alert(`Artículo solicitado correctamente. Datos enviados:\n${JSON.stringify(pedido, null, 2)}`);
+        onSolicitar(title);
+        alert(`Artículo solicitado correctamente.`);
       } else {
         alert("Error al solicitar el artículo.");
       }
@@ -59,10 +47,14 @@ const Card = ({ title, description }: CardProps) => {
 
   return (
     <div className="card">
+      {/* Botón de eliminar */}
+      <button className="remove-button" onClick={() => onRemove(title)}>
+        <FaTimes />
+      </button>
+
       <div className="card-content">
         <h2 className="card-title">
-          {title}
-          {isSolicitado && <span className="notification-bubble">🔴</span>}
+          {title} {isSolicitado && <span className="notification-bubble">🔴</span>}
         </h2>
         <p className="card-description">{description}</p>
         {isAuthenticated && role === "user" && (

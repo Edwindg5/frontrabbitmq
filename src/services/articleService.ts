@@ -6,7 +6,7 @@ export const createArticle = async (article: {
   cliente: string;
   producto: string;
   cantidad: number;
-  estado: string;
+  estado: string;     // ✅ Incluye el estado
 }) => {
   try {
     const response = await axios.post(API_URL, article, {
@@ -18,4 +18,3 @@ export const createArticle = async (article: {
     throw error;
   }
 };
-    

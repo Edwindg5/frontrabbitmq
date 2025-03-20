@@ -29,7 +29,9 @@ const LoginForm = () => {
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
-        <h2 className="login-title">Iniciar Sesión</h2>
+        <h2 className="login-title">Bienvenido</h2>
+        <p className="login-subtitle">Inicia sesión para continuar</p>
+
         <input
           type="email"
           placeholder="Correo Electrónico"
@@ -46,12 +48,13 @@ const LoginForm = () => {
           value={formData.password}
           onChange={handleChange}
         />
+
         <button className="login-button" type="submit">
           Ingresar
         </button>
       </form>
 
-      {/* Botón para registrarse */}
+      {/* Sección de registro mejorada */}
       <div className="register-container">
         <p>¿No tienes cuenta?</p>
         <button className="register-button" onClick={() => navigate("/register")}>

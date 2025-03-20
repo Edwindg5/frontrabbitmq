@@ -1,4 +1,3 @@
-// src/pages/Home.tsx
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "../components/Cards";
@@ -19,13 +18,21 @@ const Home = () => {
         console.error("Error al obtener los pedidos pendientes:", error);
       }
     };
-  
+
     fetchPedidos();
-    const interval = setInterval(fetchPedidos, 5000);
+    const interval = setInterval(fetchPedidos, 10000); // Actualización cada 10 seg
     return () => clearInterval(interval);
   }, []);
-  
-  
+
+  // Función para actualizar los pedidos después de una solicitud
+  const handleSolicitud = (productoSolicitado: string) => {
+    setPedidos((prevPedidos) => prevPedidos.filter(p => p.producto !== productoSolicitado));
+  };
+
+  // Función para eliminar una tarjeta del Home manualmente
+  const handleRemove = (productoRemovido: string) => {
+    setPedidos((prevPedidos) => prevPedidos.filter(p => p.producto !== productoRemovido));
+  };
 
   return (
     <div>
@@ -34,7 +41,14 @@ const Home = () => {
         <div className="cards-container">
           {pedidos.length > 0 ? (
             pedidos.map((pedido, index) => (
-              <Card key={index} title={pedido.producto} description={`Cantidad: ${pedido.cantidad}`} />
+              <Card
+                key={index}
+                title={pedido.producto}
+                description={`Cantidad: ${pedido.cantidad}`}
+                cantidad={pedido.cantidad}
+                onSolicitar={handleSolicitud}
+                onRemove={handleRemove} // ✅ Nueva función para eliminar manualmente
+              />
             ))
           ) : (
             <p>No hay pedidos registrados.</p>

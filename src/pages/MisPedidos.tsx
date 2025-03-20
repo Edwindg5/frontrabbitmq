@@ -1,63 +1,53 @@
 import { useEffect, useState } from "react";
 
-interface Pedido {
-  id: number;
-  cliente: string;
+interface Notificacion {
   producto: string;
   cantidad: number;
   estado: string;
+  fecha: string;
 }
 
 const MisPedidos = () => {
-  const [pedidos, setPedidos] = useState<Pedido[]>([]);
+  const [notificaciones, setNotificaciones] = useState<Notificacion[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const eventSource = new EventSource("http://localhost:8080/stream-pedidos");
-
-    eventSource.onmessage = (event) => {
-      try {
-        const nuevoPedido: Pedido = JSON.parse(event.data);
-        console.log("📩 Pedido recibido:", nuevoPedido);
-
-        // Agregar el nuevo pedido sin restricciones
-        setPedidos((prevPedidos) => [...prevPedidos, nuevoPedido]);
-      } catch (error) {
-        console.error("❌ Error procesando evento SSE:", error);
-      }
-    };
-
-    eventSource.onerror = (error) => {
-      console.error("❌ Error en SSE:", error);
-      eventSource.close();
-    };
-
-    return () => {
-      eventSource.close();
-    };
+    fetch("http://localhost:8080/notificaciones") // Ajusta la URL si es diferente
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al obtener notificaciones");
+        }
+        return response.json();
+      })
+      .then((data) => setNotificaciones(data))
+      .catch((error) => setError(error.message));
   }, []);
 
   return (
     <div className="notifications-container">
-      <h1>Mis Pedidos</h1>
-      {pedidos.length === 0 ? (
-        <p>No tienes pedidos registrados.</p>
+      <h1>Mis Notificaciones</h1>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {notificaciones.length === 0 ? (
+        <p>No hay notificaciones disponibles.</p>
       ) : (
         <table className="notifications-table">
           <thead>
             <tr>
               <th>Producto</th>
-              <th>Cliente</th>
               <th>Cantidad</th>
               <th>Estado</th>
+              <th>Fecha</th>
             </tr>
           </thead>
           <tbody>
-            {pedidos.map((pedido, index) => (
+            {notificaciones.map((notificacion, index) => (
               <tr key={index}>
-                <td>{pedido.producto}</td>
-                <td>{pedido.cliente}</td>
-                <td>{pedido.cantidad}</td>
-                <td>{pedido.estado}</td>
+                <td>{notificacion.producto}</td>
+                <td>{notificacion.cantidad}</td>
+                <td>{notificacion.estado}</td>
+                <td>{notificacion.fecha}</td>
               </tr>
             ))}
           </tbody>
