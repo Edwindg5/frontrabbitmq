@@ -12,7 +12,7 @@ const Home = () => {
   useEffect(() => {
     const fetchPedidos = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/pedidos/pendientes");
+        const response = await axios.get("http://34.199.34.207:8080/pedidos/pendientes");
         setPedidos(response.data);
       } catch (error) {
         console.error("Error al obtener los pedidos pendientes:", error);

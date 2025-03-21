@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/pedidos"; // Verifica el puerto correcto
+const API_URL = "http://34.199.34.207:8080/pedidos"; // Verifica el puerto correcto
 
 export const createArticle = async (article: {
   cliente: string;

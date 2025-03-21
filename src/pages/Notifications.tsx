@@ -20,7 +20,7 @@ const Notifications = () => {
   // 🟢 Obtener notificaciones
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get("http://localhost:8082/notificaciones");
+      const response = await axios.get("http://34.238.126.151:8082/notificaciones");
       setNotifications(response.data);
     } catch (error) {
       console.error("❌ Error al obtener notificaciones:", error);
@@ -55,7 +55,7 @@ const Notifications = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/pedidos", pedido);
+      const response = await axios.post("http://34.199.34.207:8080/pedidos", pedido);
 
       if (response.status === 201) {
         Swal.fire("✅ Éxito", "Pedido enviado correctamente", "success");

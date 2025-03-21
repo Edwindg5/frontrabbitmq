@@ -12,7 +12,7 @@ const MisPedidos = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:8080/notificaciones") // Ajusta la URL si es diferente
+    fetch("http://34.199.34.207:8080/notificaciones") // Ajusta la URL si es diferente
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error al obtener notificaciones");
