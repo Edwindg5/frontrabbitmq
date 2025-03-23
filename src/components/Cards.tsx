@@ -30,7 +30,7 @@ const Card = ({ title, description, cantidad, onSolicitar, onRemove }: CardProps
     };
 
     try {
-      const response = await axios.post("http://34.238.126.151:8082/notificaciones", pedido);
+      const response = await axios.post("http://100.28.7.31:8082/notificaciones", pedido);
 
       if (response.status === 201) {
         setIsSolicitado(true);
